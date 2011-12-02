@@ -5,6 +5,7 @@ import java.util.*;
 
 import static org.testng.Assert.*;
 
+import com.gsu.annotations.Simplifiable;
 import org.bson.types.ObjectId;
 import org.testng.annotations.Test;
 
@@ -12,8 +13,9 @@ import com.google.gson.Gson;
 import com.gsu.annotations.Primitive;
 import com.gsu.annotations.Simplified;
 
+@Simplifiable
 class A {
-    @Primitive
+
     Integer id;
     String name;
     
@@ -21,8 +23,9 @@ class A {
     B b;
 }
 
+@Simplifiable
 class B {
-    @Primitive
+
     Integer id;
     
     String name;

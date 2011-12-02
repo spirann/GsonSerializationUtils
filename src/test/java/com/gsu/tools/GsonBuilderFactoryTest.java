@@ -8,7 +8,7 @@ import testModels.Movie;
 
 
 public class GsonBuilderFactoryTest {
-    @Test(timeOut=100)
+    @Test(timeOut=1000)
     public void simpleTest(){
         Movie movie = new Movie();
         Actor actor = new Actor();

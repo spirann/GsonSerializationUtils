@@ -7,8 +7,8 @@ import com.gsu.annotations.Primitive;
 import com.gsu.annotations.Simplified;
 
 public class Actor {
-    @Primitive
-    private int id;
+
+    private Integer id;
     
     @Simplified
     private Movie movie;

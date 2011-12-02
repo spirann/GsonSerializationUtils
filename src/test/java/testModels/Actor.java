@@ -3,7 +3,6 @@ package testModels;
 
 import java.util.Random;
 
-import com.gsu.annotations.Primitive;
 import com.gsu.annotations.Simplified;
 
 public class Actor {

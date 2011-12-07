@@ -1,4 +1,4 @@
-package com.gsu.tools.serializers;
+package com.gsu.tools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

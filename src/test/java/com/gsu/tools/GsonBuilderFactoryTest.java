@@ -10,31 +10,34 @@ import org.bson.types.ObjectId;
 import org.testng.annotations.Test;
 
 import com.google.gson.Gson;
-import com.gsu.annotations.Primitive;
-import com.gsu.annotations.Simplified;
+import com.gsu.annotations.Simple;
 
 @Simplifiable
 class A {
 
+    public A(){}
+
     Integer id;
     String name;
     
-    @Simplified
+    @Simple
     B b;
 }
 
 @Simplifiable
 class B {
 
+    public B(){}
+
     Integer id;
     
     String name;
     
-    @Simplified
+    @Simple
     A a;
     
     List<A> aList = new ArrayList<A>();
-    @Simplified
+    @Simple
     Map<ObjectId,A> amap = new HashMap<ObjectId,A>();
 }
 
@@ -58,10 +61,15 @@ public class GsonBuilderFactoryTest {
             Gson gson = GsonBuilderFactory.getComplexGsonBuilder(B.class).create();
             String jsonB = gson.toJson(b);
             
-            System.out.println(jsonB);
-            System.out.println(idB);
+            System.out.println("jsonB: "+jsonB);
+            System.out.println("id: "+idB);
             
             assertTrue(jsonB.contains("" + idB));
+
+            B b2 = gson.fromJson(jsonB,B.class);
+            System.out.println("b2: "+b2);
+            System.out.println("b2.id: "+b2.id);
+            System.out.println("b2.a.id: "+b2.a.id);
         } catch (Exception e){
             e.printStackTrace();
             fail();
@@ -88,6 +96,13 @@ public class GsonBuilderFactoryTest {
             System.out.println(jsonB);
             
             assertTrue(jsonB.contains("" + idB));
+
+            B b2 = gson.fromJson(jsonB,B.class);
+            System.out.println("b2: "+b2);
+            System.out.println("b2.id: "+b2.id);
+            for(ObjectId id : b2.amap.keySet()){
+                System.out.println(id + " => " + b2.amap.get(id));
+            }
         } catch (Exception e){
             e.printStackTrace();
             fail();

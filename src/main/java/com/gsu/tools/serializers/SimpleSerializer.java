@@ -1,8 +1,7 @@
 package com.gsu.tools.serializers;
 
 import com.google.gson.*;
-import com.gsu.annotations.Primitive;
-import com.gsu.annotations.Simplified;
+import com.gsu.annotations.Simple;
 import com.gsu.tools.GsonBuilderFactory;
 import com.gsu.tools.ReflectionUtilities;
 
@@ -19,12 +18,8 @@ public class SimpleSerializer implements JsonSerializer<Object>{
                 field.setAccessible(true);
                 Object value =  field.get(src);
                 if (value!= null){
-                    if(! ReflectionUtilities.isPrimitive(field.get(src))){
-                        if (field.isAnnotationPresent(Primitive.class)){
-                            addPrimitive(jsonObject, field, value);
-                        } else if (!field.isAnnotationPresent(Simplified.class)){
-                            System.out.println("src : "+src.getClass());
-                            System.out.println("normal : "+field.getType());
+                    if(! ReflectionUtilities.isPrimitive(field.getType())){
+                        if (!field.isAnnotationPresent(Simple.class)){
                             JsonElement element = GsonBuilderFactory.getSimpleGsonBuilder(field.getType()).create().toJsonTree(value);
                             jsonObject.add(field.getName(), element);
                         }
@@ -40,7 +35,14 @@ public class SimpleSerializer implements JsonSerializer<Object>{
     }
 
     private void addPrimitive(JsonObject jsonObject, Field field, Object value) throws IllegalAccessException {
-            JsonElement primitive = new JsonPrimitive(value.toString());
+            JsonElement primitive;
+            if(value instanceof Boolean){
+                primitive = new JsonPrimitive((Boolean)value);
+            } else if(value instanceof Number){
+                primitive = new JsonPrimitive((Number)value);
+            } else {
+                primitive = new JsonPrimitive(value.toString());
+            }
             jsonObject.add(field.getName(), primitive);
     }
 }

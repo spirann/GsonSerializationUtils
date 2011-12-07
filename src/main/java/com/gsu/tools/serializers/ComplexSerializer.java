@@ -1,9 +1,9 @@
 package com.gsu.tools.serializers;
 
 import com.google.gson.*;
-import com.gsu.annotations.Primitive;
-import com.gsu.annotations.Simplified;
+import com.gsu.annotations.Simple;
 import com.gsu.tools.ReflectionUtilities;
+import com.gsu.tools.Simplifier;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
@@ -18,10 +18,8 @@ public class ComplexSerializer implements JsonSerializer<Object> {
             try{
                 if (field.get(src)!= null){
                     Object value = field.get(src);
-                    if(!ReflectionUtilities.isPrimitive(value)){
-                        if (field.isAnnotationPresent(Primitive.class)){
-                            Primitiver.addPrimitive(jsonObject,field,value);
-                        } else if (field.isAnnotationPresent(Simplified.class)){
+                    if(!ReflectionUtilities.isPrimitive(field.getType())){
+                        if (field.isAnnotationPresent(Simple.class)){
                             Simplifier.addSimplified(jsonObject, field, value);
                         } else {
                             JsonElement element = context.serialize(value);
@@ -29,8 +27,7 @@ public class ComplexSerializer implements JsonSerializer<Object> {
                         }
                     } else {
                         //TODO check if necessary
-                        JsonElement primitive = new JsonPrimitive(value.toString());
-                        jsonObject.add(field.getName(), primitive);
+                        addPrimitive(jsonObject,field,value);
                     }
                 }
             } catch(Exception e){
@@ -38,5 +35,17 @@ public class ComplexSerializer implements JsonSerializer<Object> {
             }
         }
         return jsonObject;
+    }
+
+    private void addPrimitive(JsonObject jsonObject, Field field, Object value) throws IllegalAccessException {
+            JsonElement primitive;
+            if(value instanceof Boolean){
+                primitive = new JsonPrimitive((Boolean)value);
+            } else if(value instanceof Number){
+                primitive = new JsonPrimitive((Number)value);
+            } else {
+                primitive = new JsonPrimitive(value.toString());
+            }
+            jsonObject.add(field.getName(), primitive);
     }
 }

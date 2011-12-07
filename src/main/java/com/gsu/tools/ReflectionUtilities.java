@@ -3,11 +3,11 @@ package com.gsu.tools;
 import java.util.Date;
 
 public class ReflectionUtilities {
-    public static boolean isPrimitive(Object object){
-        return object.getClass().isPrimitive()||
-                 Number.class.isInstance(object)||
-                 Boolean.class.isInstance(object)||
-                 Character.class.isInstance(object)||
-                 String.class.isInstance(object);
+    public static boolean isPrimitive(Class clazz){
+        return clazz.isPrimitive()||
+                 Number.class.isAssignableFrom(clazz)||
+                 Boolean.class.isAssignableFrom(clazz)||
+                 Character.class.isAssignableFrom(clazz)||
+                 String.class.isAssignableFrom(clazz);
     }
 }

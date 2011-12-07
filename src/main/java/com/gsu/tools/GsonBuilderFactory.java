@@ -4,6 +4,9 @@ import java.util.Date;
 
 import com.google.gson.*;
 import com.gsu.annotations.Simplifiable;
+import com.gsu.tools.deserializers.ComplexDeserializer;
+import com.gsu.tools.deserializers.NativeDeserializer;
+import com.gsu.tools.deserializers.SimpleDeserializer;
 import com.gsu.tools.serializers.ComplexSerializer;
 import com.gsu.tools.serializers.NativeSerializer;
 import com.gsu.tools.serializers.SimpleSerializer;
@@ -17,6 +20,7 @@ public class GsonBuilderFactory {
     public static GsonBuilder getComplexGsonBuilder(final Class<?> clazz) {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(clazz, new ComplexSerializer());
+        builder.registerTypeAdapter(clazz, new ComplexDeserializer());
         return builder;
     }
 
@@ -24,8 +28,10 @@ public class GsonBuilderFactory {
         GsonBuilder builder = new GsonBuilder();
         if(simplifiable(clazz)){
             builder.registerTypeAdapter(clazz, new SimpleSerializer());
+            builder.registerTypeAdapter(clazz, new SimpleDeserializer());
         } else if(!isPrimitive(clazz)){
             builder.registerTypeAdapter(clazz,new NativeSerializer());
+            builder.registerTypeAdapter(clazz,new NativeDeserializer());
         }
         return builder;
     }

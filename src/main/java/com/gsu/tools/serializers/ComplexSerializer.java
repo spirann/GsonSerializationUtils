@@ -2,7 +2,7 @@ package com.gsu.tools.serializers;
 
 import com.google.gson.*;
 import com.gsu.annotations.Simple;
-import com.gsu.tools.ReflectionUtilities;
+import com.gsu.tools.ReflectionUtils;
 import com.gsu.tools.Simplifier;
 
 import java.lang.reflect.Field;
@@ -18,7 +18,7 @@ public class ComplexSerializer implements JsonSerializer<Object> {
             try{
                 if (field.get(src)!= null){
                     Object value = field.get(src);
-                    if(!ReflectionUtilities.isPrimitive(field.getType())){
+                    if(!ReflectionUtils.isPrimitive(field.getType())){
                         if (field.isAnnotationPresent(Simple.class)){
                             Simplifier.addSimplified(jsonObject, field, value);
                         } else {

@@ -2,7 +2,7 @@ package com.gsu.tools;
 
 import java.util.Date;
 
-public class ReflectionUtilities {
+public class ReflectionUtils {
     public static boolean isPrimitive(Class clazz){
         return clazz.isPrimitive()||
                  Number.class.isAssignableFrom(clazz)||

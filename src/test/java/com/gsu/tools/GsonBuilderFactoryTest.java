@@ -15,8 +15,6 @@ import com.gsu.annotations.Simple;
 @Simplifiable
 class A {
 
-    public A(){}
-
     Integer id;
     String name;
     
@@ -26,8 +24,6 @@ class A {
 
 @Simplifiable
 class B {
-
-    public B(){}
 
     Integer id;
     

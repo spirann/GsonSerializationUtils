@@ -3,7 +3,7 @@ package com.gsu.tools.serializers;
 import com.google.gson.*;
 import com.gsu.annotations.Simple;
 import com.gsu.tools.GsonBuilderFactory;
-import com.gsu.tools.ReflectionUtilities;
+import com.gsu.tools.ReflectionUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
@@ -18,7 +18,7 @@ public class SimpleSerializer implements JsonSerializer<Object>{
                 field.setAccessible(true);
                 Object value =  field.get(src);
                 if (value!= null){
-                    if(! ReflectionUtilities.isPrimitive(field.getType())){
+                    if(! ReflectionUtils.isPrimitive(field.getType())){
                         if (!field.isAnnotationPresent(Simple.class)){
                             JsonElement element = GsonBuilderFactory.getSimpleGsonBuilder(field.getType()).create().toJsonTree(value);
                             jsonObject.add(field.getName(), element);

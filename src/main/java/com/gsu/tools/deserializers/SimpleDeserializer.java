@@ -3,7 +3,7 @@ package com.gsu.tools.deserializers;
 import com.google.gson.*;
 import com.gsu.annotations.Simple;
 import com.gsu.tools.GsonBuilderFactory;
-import com.gsu.tools.ReflectionUtilities;
+import com.gsu.tools.ReflectionUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -23,7 +23,7 @@ public class SimpleDeserializer implements JsonDeserializer<Object>{
             for(Field field : dest.getClass().getDeclaredFields()){
 
                 field.setAccessible(true);
-                if(! ReflectionUtilities.isPrimitive(field.getType())){
+                if(! ReflectionUtils.isPrimitive(field.getType())){
                         if (!field.isAnnotationPresent(Simple.class)){
                             Object object = GsonBuilderFactory.getSimpleGsonBuilder(field.getType()).create().fromJson(jsonObject.get(field.getName()), field.getType());
                             if(object != null){
@@ -36,7 +36,7 @@ public class SimpleDeserializer implements JsonDeserializer<Object>{
 
             }
         } catch( Exception e) {
-            e.printStackTrace();;
+            e.printStackTrace();
         }
 
         return dest;
